@@ -6,9 +6,9 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayou
 from PySide2.QtGui import QFont
 from PySide2.QtCore import Qt, QSize
 
-from ui_element_factory import UI_Element_Factory
+from ui.ui_element_factory import UI_Element_Factory
 
-from preprocessor import Preprocessor
+from parser.preprocessor import Preprocessor
 
 class Main_Menu(QMainWindow):
     def __init__(self):

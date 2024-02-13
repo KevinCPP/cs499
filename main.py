@@ -6,7 +6,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayou
 from PySide2.QtGui import QFont
 from PySide2.QtCore import Qt, QSize
 
-from main_menu import *
+from ui.main_menu import * 
 
 def initialize():
     app = QApplication(sys.argv)
