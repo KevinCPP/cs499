@@ -1,16 +1,22 @@
 import re
+import os
 
 class Preprocessor:
     def __init__(self):
         self.possibly_sensitive_lines = set()
 
-    def file_in(self, path):
-        try:
-            with open(path, 'r') as file:
-                content = file.read()
-                return (True, content)
-        except Exception as e:
-            return (False, str(e))
+    def file_in(self, paths):
+        files = []
+        for path in paths:
+            try:
+                with open(path, 'r') as file:
+                    content = file.read()
+                    files.append((True, content))
+
+            except Exception as e:
+                print(f"Error occured in file_in: {e}\n")
+                files.append((False, str(e)))
+        return files
 
     def remove_html(self, input_string):
         pattern = '<.*?>'
@@ -35,24 +41,40 @@ class Preprocessor:
         combined_pattern = f'({ddmmyyyy})|({yyyymmdd})'
         return self._lines_with_pattern(input_string, combined_pattern)
 
-    def process(self, path):
-        success, file_string = self.file_in(path)
+    def process(self, paths):
+        file_strings = self.file_in(paths)
+        all_sensitive_lines = set()
 
-        if not success:
-            return (False, file_string)
+        # Loop through the lines in the files
+        for success, file_string in file_strings:
+            if not success:
+                print(f"Error occured in process: {file_string}\n")
+                continue
         
-        p_text = file_string
-        lines_with_dates = self.detect_dates(p_text)
-        self.possibly_sensitive_lines.update(lines_with_dates)
-        lines_with_ssn = self.detect_ssn(p_text)
-        self.possibly_sensitive_lines.update(lines_with_ssn)
+            p_text = file_string # Can be cleaned using p_text = self.remove_html(file_string) instead (written below)
+            # p_text = self.remove_html(file_string)
+            lines_with_dates = self.detect_dates(p_text)
+            all_sensitive_lines.update(lines_with_dates)
+            lines_with_ssn = self.detect_ssn(p_text)
+            all_sensitive_lines.update(lines_with_ssn)
+        
+        self.possibly_sensitive_lines = all_sensitive_lines
 
-        return (True, self.possibly_sensitive_lines) 
+        return all_sensitive_lines # Return all lines with sensitive information
 
 
 if __name__ == "__main__":
     p = Preprocessor()
-    file = "messages/test.html"
-    print("========= Lines with sensitive info detected =========")
-    success, lines = p.process(file, "test")
+    path = "messages"
+
+    # Choose the entire messages directory or certain messages
+    files  = [os.path.join(path, file) for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
+    #files = ["messages/test.html", "messages/20210816-Call 8_15-1313.html", "messages/20210815-Re_Call 8_14-1316.html", "messages\20210814-Call Email 8_13-1320.html"]
+    
+    print("\n=================== Lines with sensitive info detected ===================\n")
+    lines = p.process(files)
+    for line in lines:
+        print(line, "\n")
+    print("============================================================================\n")
+  
 
