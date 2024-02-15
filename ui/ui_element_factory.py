@@ -200,13 +200,12 @@ class UI_Element_Factory:
         
         def open_file_dialog():
             options = QFileDialog.Options()
-            file_name, _ = QFileDialog.getOpenFileName(None, "Select File", "", "All Files (*)", options=options)
-            if file_name:
-                #line_edit.setText(file_name)
-                self.widget_values[label] = file_name  # Store the selected file path for later retrieval
-                
+            # Enable multiple file selection
+            files, _ = QFileDialog.getOpenFileNames(None, "Select Files, Use Ctrl+Left Click for Multiple Files", "", "All Files (*)", options=options)
+            if files:
+                self.widget_values[label] = files  # Store the list of selected files
                 if callback:
-                    callback(file_name)
+                    callback(files)  # Invoke callback with the list of files
         
         # Connect the button's clicked signal to open the file dialog
         button.clicked.connect(open_file_dialog)
