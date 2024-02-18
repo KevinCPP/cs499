@@ -103,6 +103,6 @@ class Email_Parser(QMainWindow):
         title_font.setPointSize(28)  # Increase the font size
         title.setFont(title_font)
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("color: white;")  # Set the font color to white
+        title.setStyleSheet("color: black;")  # Set the font color to black
         return title
 
