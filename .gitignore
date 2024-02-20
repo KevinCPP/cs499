@@ -1,5 +1,5 @@
 # our stuff
-*.censored
+*.censored*
 
 
 # Byte-compiled / optimized / DLL files
