@@ -5,18 +5,21 @@ class Preprocessor:
     def __init__(self):
         self.possibly_sensitive_lines = set()
 
-    def file_in(self, paths):
-        files = []
-        for path in paths:
-            try:
-                with open(path, 'r') as file:
-                    content = file.read()
-                    files.append((True, content))
+    def file_in(self, path):
+        try:
+            with open(path, 'r') as file:
+                content = file.read()
+                return (True, content)
+        except Exception as e:
+            return (False, str(e))
 
-            except Exception as e:
-                print(f"Error occured in file_in: {e}\n")
-                files.append((False, str(e)))
-        return files
+    def file_out(self, path, text):
+        try:
+            with open(path, 'w') as file:
+                file.write(text)
+                return (True, "successfully wrote file")
+        except Exception as e:
+            return (False, str(e))
 
     def remove_html(self, input_string):
         pattern = '<.*?>'
@@ -41,27 +44,45 @@ class Preprocessor:
         combined_pattern = f'({ddmmyyyy})|({yyyymmdd})'
         return self._lines_with_pattern(input_string, combined_pattern)
 
-    def process(self, paths):
-        file_strings = self.file_in(paths)
+    def detect_sensitive_info(self, text):
+        # this set will store all of the sensitive lines found in the text
         all_sensitive_lines = set()
-
-        # Loop through the lines in the files
-        for success, file_string in file_strings:
+        
+        # detect lines with dates or 9 digit numbers, and add them to the set of sensitive lines 
+        lines_with_dates = self.detect_dates(text)
+        all_sensitive_lines.update(lines_with_dates)
+        lines_with_ssn = self.detect_ssn(text)
+        all_sensitive_lines.update(lines_with_ssn)
+        
+        # return the set of sensitive lines
+        return all_sensitive_lines
+    
+    def process(self, paths, censored_file_extension=".censored.html"):
+        # iterate through the path for each file we want to process
+        for path in paths:
+            # read that file and retrieve the result. The result will be a tuple (success, message)
+            success, message = self.file_in(path)
+            
+            # if the file was not successfully read, emit an error message
             if not success:
-                print(f"Error occured in process: {file_string}\n")
-                continue
-        
-            p_text = file_string # Can be cleaned using p_text = self.remove_html(file_string) instead (written below)
-            # p_text = self.remove_html(file_string)
-            lines_with_dates = self.detect_dates(p_text)
-            all_sensitive_lines.update(lines_with_dates)
-            lines_with_ssn = self.detect_ssn(p_text)
-            all_sensitive_lines.update(lines_with_ssn)
-        
-        self.possibly_sensitive_lines = all_sensitive_lines
+                print(f"Failed to read file {path}. Exception: {message}")
 
-        return all_sensitive_lines # Return all lines with sensitive information
+            # if the file was successfully read, `message` will contain the file contents. Detect all sensitive lines
+            # in the file and store the set in sensitive_lines variable for further use
+            sensitive_lines = self.detect_sensitive_info(message)
 
+            # Split the message into lines, filter out sensitive lines, and rejoin
+            message_lines = message.split('\n')
+            censored_message_lines = [line for line in message_lines if line not in sensitive_lines]
+            censored_message = '\n'.join(censored_message_lines)
+
+            # create a path where we will store the censored file
+            censored_path = f"{path}{censored_file_extension}"
+            
+            # Write the censored message to the censored_path
+            success, error_message = self.file_out(censored_path, censored_message)
+            if not success:
+                print(f"Failed to write censored file {censored_path}. Exception: {error_message}")
 
 if __name__ == "__main__":
     p = Preprocessor()
