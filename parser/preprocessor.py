@@ -40,13 +40,14 @@ class Preprocessor:
 
     def detect_dates(self, input_string):
         # for dates such as 07/06/2000
-        ddmmyyyy = r'\b\d{2}[-/]\d{2}[-/]\d{4}\b'
+        ddmmyyyy = r'\b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b'
         # for dates such as 2000/07/06
-        yyyymmdd = r'\b\d{4}[-/]\d{2}[-/]\d{2}\b'
+        yyyymmdd = r'\b\d{2,4}[-/]\d{1,2}[-/]\d{1,2}\b'
         # for dates such as 6/5/30, 7/28/55, or 11/16/98
-        m_d_yy = r'\b\d{1,2}[-/]\d{1,2}[-/]\d{2}\b'
+#        m_d_yy = r'\b\d{1,2}[-/]\d{1,2}[-/]\d{2}\b'
 
-        combined_pattern = f'({ddmmyyyy})|({yyyymmdd})|({m_d_yy})'
+#        combined_pattern = f'({ddmmyyyy})|({yyyymmdd})|({m_d_yy})'
+        combined_pattern = f'({ddmmyyyy})|({yyyymmdd})'
         return self._lines_with_pattern(input_string, combined_pattern)
 
     def detect_sensitive_info(self, text):
