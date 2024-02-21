@@ -1,14 +1,14 @@
 import sys
 
-from PySide2.QtWidgets import *
-from PySide2.QtCore import Qt, QSize
+from PySide6.QtWidgets import *
+from PySide6.QtCore import Qt, QSize
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QLabel, QWidget, QDialog, QTextEdit
-from PySide2.QtGui import QFont
-from PySide2.QtCore import Qt, QSize
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QLabel, QWidget, QDialog, QTextEdit
+from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt, QSize
 
-from PySide2.QtWidgets import QVBoxLayout, QSpinBox, QLabel, QHBoxLayout, QComboBox, QLineEdit
-from PySide2.QtCore import Qt
+from PySide6.QtWidgets import QVBoxLayout, QSpinBox, QLabel, QHBoxLayout, QComboBox, QLineEdit
+from PySide6.QtCore import Qt
 
 from typing import List, Optional, Union
 
