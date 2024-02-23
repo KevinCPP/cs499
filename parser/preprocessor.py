@@ -63,6 +63,8 @@ class Preprocessor:
                 filtered_tokens = [s for s in filtered_tokens if not re.search(self.ssn_pattern, s)]
                 # since a middle initial could be one character (e.g. "F"), we don't want to remove a single character from the whole document, so just ignore it
                 filtered_tokens = [s for s in filtered_tokens if (len(s) > 1)]
+                # remove "MRN:", "SSN:", "DOB:"
+                filtered_tokens = [s for s in filtered_tokens if s not in ["MRN:", "DOB:", "SSN:"]]
 
                 # if there are 2 or 3 tokens remaining (e.g. ["FirstName", "LastName"] or ["First", "Middle", "Last"]) remove them
                 if len(filtered_tokens) == 2 or len(filtered_tokens) == 3:
@@ -74,7 +76,7 @@ class Preprocessor:
                     
                     # set name_censor_failed to False
                     name_censored = True
-        
+
         # finally, return whether or not we censored any names, and the final censored text
         return (name_censored, censored_text)
                 
