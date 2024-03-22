@@ -1,8 +1,8 @@
 import re
 import os
 
-from file_io import *
-from line_rule import *
+from parser.file_io import *
+from parser.line_rule import *
 
 class Parser:
     def __init__(self):
