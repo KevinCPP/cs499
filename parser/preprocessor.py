@@ -3,11 +3,13 @@ import os
 
 from parser.file_io import file_in
 from parser.file_io import file_out
+from parser.parser import remove_html
 
 class Preprocessor:
     def __init__(self):
         # pattern for detecting 9 digit numbers (social security numbers or medical record numbers)
         self.ssn_pattern = r'\b\d{9}\b'
+        self.parser = Parser()
 
         # for dates such as 07/06/2000
         ddmmyyyy = r'\b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b'
@@ -23,14 +25,14 @@ class Preprocessor:
         # combined pattern for detecting phone numbers
         self.phone_number_pattern = f"({formatted_phone_number})|({basic_ten_digit_number})" 
         
-    def remove_html(self, input_string, replace_with=' '):
-        pattern = '<.*?>'
-        clean_text = re.sub(pattern, replace_with, input_string)
-        pattern = '{.*?}'
-        clean_text = re.sub(pattern, replace_with, clean_text)
-        pattern = '&.*?;'
-        clean_text = re.sub(pattern, replace_with, clean_text)
-        return clean_text
+#    def remove_html(self, input_string, replace_with=' '):
+#        pattern = '<.*?>'
+#        clean_text = re.sub(pattern, replace_with, input_string)
+#        pattern = '{.*?}'
+#        clean_text = re.sub(pattern, replace_with, clean_text)
+#        pattern = '&.*?;'
+#        clean_text = re.sub(pattern, replace_with, clean_text)
+#        return clean_text
     
     def censor_sensitive_information(self, text):
         # detect if we possibly failed to censor a name:
@@ -53,7 +55,7 @@ class Preprocessor:
                 # tokenize this line so that we can extract what could possibly be a date. This will first require scrubbing
                 # it of HTML to avoid removing HTML elements from the rest of the document. We only want to remove names if we're
                 # absolutely sure that it's a name, to avoid removing any necessary information.
-                line_no_html = self.remove_html(line)
+                line_no_html = self.parser.remove_html(line)
                 # split at any whitespace. This works because remove_html will replace html tags with a whitespace character by default.
                 tokenized_line_no_html = line_no_html.split()
                 
