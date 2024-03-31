@@ -71,7 +71,7 @@ class Preprocessor:
                 # if there are 2 or 3 tokens remaining (e.g. ["FirstName", "LastName"] or ["First", "Middle", "Last"]) remove them
                 if len(filtered_tokens) == 2 or len(filtered_tokens) == 3:
                     # print what we are removing (debug feature)
-                    print(f"Removing the tokens: {filtered_tokens}")
+                    #print(f"Removing the tokens: {filtered_tokens}")
                     # remove the tokens from the censored text as a whole 
                     for token in filtered_tokens:
                         censored_text = censored_text.replace(token, "__NAME__")
@@ -100,7 +100,7 @@ class Preprocessor:
             censored_path = f"{path}{censored_file_extension}"
 
             if not name_censored:
-                print(f"WARN: Name possibly not censored for {path}")
+                #print(f"WARN: Name possibly not censored for {path}")
                 censored_path = f"{censored_path}.WARN"
             
             # Write the censored message to the censored_path
