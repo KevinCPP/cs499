@@ -3,7 +3,9 @@ import os
 
 from parser.file_io import file_in
 from parser.file_io import file_out
-from parser.parser import remove_html
+#from parser.parser import remove_html
+from parser.parser import Parser
+
 
 class Preprocessor:
     def __init__(self):

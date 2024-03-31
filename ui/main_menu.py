@@ -9,6 +9,7 @@ from PySide6.QtCore import Qt, QSize
 from ui.ui_element_factory import UI_Element_Factory
 
 from parser.preprocessor import Preprocessor
+from parser.parser import Parser
 
 class Main_Menu(QMainWindow):
     def __init__(self):
@@ -23,6 +24,7 @@ class Main_Menu(QMainWindow):
         self.layout.addStretch(1)
         
         self.processor = Preprocessor()
+        self.parser = Parser()
         
         self.file_to_parse_name = "HTML file to parse"
         self.file_to_parse = self.uief.make_file_explorer_element(self.file_to_parse_name, "Select which HTML email to parse")
@@ -30,6 +32,9 @@ class Main_Menu(QMainWindow):
 
         self.parse_btn = self.uief.make_push_button_element("Parse", None, self.parse)
         self.layout.addWidget(self.parse_btn)
+
+        self.make_graph_btn = self.uief.make_push_button_element("Make Graph", None, self.make_graph)
+        self.layout.addWidget(self.make_graph_btn)
 
         self.quit_btn = self.uief.make_push_button_element("Quit", None, sys.exit)
         self.layout.addWidget(self.quit_btn)
@@ -40,6 +45,9 @@ class Main_Menu(QMainWindow):
 
     def parse(self):
         self.processor.process(self.uief.getValue(self.file_to_parse_name)) 
+
+    def make_graph(self):
+        self.parser.plot_eyesight_age(self.uief.getValue(self.file_to_parse_name))
 
     def get_title_widget(self) -> QLabel:
         title = QLabel("Email Parser")

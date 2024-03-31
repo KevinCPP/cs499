@@ -12,9 +12,9 @@ def lr_dob_and_ssn(input_text):
 
     indices = []
     for index, line in enumerate(input_text.splitlines()):
-        if re.search(ssn_pattern, line) and re.search(date_pattern, line):
+        # Modified to check for either SSN or date
+        if re.search(ssn_pattern, line) or re.search(date_pattern, line):
             indices.append((index, index))
-
     return indices
 
 
