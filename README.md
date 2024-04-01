@@ -21,6 +21,7 @@ Upon installing all of the requirements, simply execute `python3 main.py` while 
 
 # Test Cases
 To ensure that things are working properly with the preprocessing feature, follow the setup instructions, click the "browse" button, navigate to the `messages/` directory, and select a subset or all of the emails. Confirm your selection, then navigate back to the main menu and click the "Parse" button. Upon doing this, the messages directory will be populated with copies of the emails with censored information. Any emails with a .WARN or .ERROR extension means that the program was probably unable to censor all of the information contained within.
+
 To run a test case on the analysis feature, follow the setup instructions, click the "Browse" button, navigate to the `converted_messages/` directory, and select a subset or all of the emails. Confirm your selection, then navigate back to the main menu and click the "Make Graph" button. Upon doing this, a graph will be displayed that is populated with visual accuity data vs. age; The spikes correspond to incidents that may have occurred which caused patients to have poor eyesight outside of natural deterioration from aging.
 
 Notes:
