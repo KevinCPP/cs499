@@ -6,6 +6,14 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayou
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QSize
 
+class EmailProcessor:
+    def __init__(self, email):
+        self.email_text = email
+
+    def parse_PID_lines(self):
+
+
+
 from ui.main_menu import * 
 
 def initialize():
