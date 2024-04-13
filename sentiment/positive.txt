@@ -1,0 +1,38 @@
+stable
+benign
+full
+good
+improved
+better
+healthy
+OK
+improving
+clear
+compliant
+successful
+Well
+Normal
+Sharp
+Fine
+No acute changes
+WNL (Within Normal Limits)
+No proptosis
+Full CVF
+Acute
+Prioritize
+Empiric
+Reevaluation
+Reinforced
+Understanding
+Follow-up
+Response
+Relief
+Concern
+Recommend
+Advice
+Repaired
+Without complication
+Evaluating
+Discussing
+Immediately
+Received

@@ -12,7 +12,7 @@ def initialize():
     app = QApplication(sys.argv)
     m = Main_Menu()
     m.show()
-    sys.exit(app.exec())
+    app.exec()
 
 if __name__ == "__main__":
     initialize()
